@@ -44,10 +44,12 @@ public class ServletProcessor {
 		
 		//使用加载的类返回页面
 		Class myClass = null;
+		RequestFacade requestFacade = new RequestFacade(request);
+		ResponseFacade responseFacade = new ResponseFacade(response);
 		try {
 			myClass = loader.loadClass("com.hjh.servlet."+servletName);
 			Servlet servlet = (Servlet) myClass.newInstance();
-			servlet.service(request, response);
+			servlet.service(requestFacade, responseFacade);
 			System.out.println("servlet has been invoked....");
 		} catch (InstantiationException e) {
 			e.printStackTrace();
