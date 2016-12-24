@@ -11,7 +11,7 @@ import java.net.UnknownHostException;
 
 public class HttpServer1 {
 
-	public static final String WEB_ROOT = "F:" + File.separator + "webroot";
+//	public static final String WEB_ROOT = "F:" + File.separator + "webroot";
 	
 	public static final String SHUTDOWN_COMMAND = "SHUTDOWN";
 	
@@ -44,7 +44,17 @@ public class HttpServer1 {
 				output = socket.getOutputStream();
 				Response response = new Response(output);
 				response.setRequest(request);
-				response.sendStaticResource();
+				//response.sendStaticResource();
+				
+				if(request.getUri().contains("/servlet/")) {
+					//若url包括/servlet/转入servlet处理器中
+					ServletProcessor processor = new ServletProcessor(request, response);
+					processor.process();
+				} else {
+					//否则返回静态页面
+					StaticResourceProcessor processor = new StaticResourceProcessor(response);
+					processor.send();
+				}
 				
 				socket.close();
 				
