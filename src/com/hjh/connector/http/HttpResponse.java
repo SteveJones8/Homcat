@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.Locale;
@@ -12,9 +13,11 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+import com.hjh.connector.ResponseWriter;
+
 public class HttpResponse implements HttpServletResponse{
 	
-
+	private PrintWriter writer;
 	private OutputStream output;
 	private HttpRequest request;
 	private static final int BUFFER_SIZE = 1024;
@@ -50,7 +53,7 @@ public class HttpResponse implements HttpServletResponse{
 	@Override
 	public String getCharacterEncoding() {
 		// TODO Auto-generated method stub
-		return null;
+		return "utf-8";
 	}
 
 	@Override
@@ -73,8 +76,9 @@ public class HttpResponse implements HttpServletResponse{
 
 	@Override
 	public PrintWriter getWriter() throws IOException {
-		// TODO Auto-generated method stub
-		return new PrintWriter(output, true);
+		OutputStreamWriter osr = new OutputStreamWriter(output, getCharacterEncoding());
+		writer = new ResponseWriter(osr);
+		return writer;
 	}
 
 	@Override

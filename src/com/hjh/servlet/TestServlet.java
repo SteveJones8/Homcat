@@ -38,6 +38,7 @@ public class TestServlet implements Servlet{
 	public void service(ServletRequest request, ServletResponse response)
 			throws ServletException, IOException {
 		response.getWriter().println("Oh, yes");
+		response.getWriter().print("Oh, yes");
 		response.getWriter().println("Oh, yes");
 	}
 
